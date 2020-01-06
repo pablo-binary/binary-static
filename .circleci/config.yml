@@ -42,6 +42,12 @@ commands:
           key: node-{{ checksum "package-lock.json" }}
           paths:
             - "node_modules"
+  npm_test:
+    description: "Run npm test"
+    steps:
+      - run:
+          name: "Run test"
+          command: npm test
   grunt_release:
     description: "Build for release target"
     parameters:
@@ -83,16 +89,38 @@ commands:
             kubectl --server=${KUBE_SERVER} --certificate-authority=ca.crt --token=$SERVICEACCOUNT_TOKEN set image deployment/<< parameters.k8s_svc_name >> << parameters.k8s_svc_name >>=${DOCKHUB_ORGANISATION}/binary-static:${CIRCLE_TAG}
 
 jobs:
-  build_push:
+  test:
     docker:
       - image: circleci/node:9.8.0-stretch
     steps:
       - git_checkout_from_cache
       - npm_install_from_cache
-      - grunt_release
+      - npm_test
+
+  build_push_staging:
+    docker:
+      - image: circleci/node:9.8.0-stretch
+    steps:
+      - git_checkout_from_cache
+      - npm_install_from_cache
+      - grunt_release:
+         target: 'staging'
+      - grunt_release:
+          target: 'translations'
       - docker_build
       - docker_push
       
+  build_push_production:
+    docker:
+      - image: circleci/node:9.8.0-stretch
+    steps:
+      - git_checkout_from_cache
+      - npm_install_from_cache
+      - grunt_release:
+          target: 'production'
+      - docker_build
+      - docker_push
+
   deploy_staging:
     docker:
       - image: circleci/node:9.8.0-stretch
@@ -109,13 +137,14 @@ jobs:
 workflows:
   build_and_push_master:
     jobs:
-      - build_push:
+      - test
+      - build_push_staging:
           filters:
             branches:
               only: /^master/
   tagged_release_staging:
     jobs:
-      - build_push:
+      - build_push_staging:
           filters:
             branches:
               ignore: /.*/
@@ -123,7 +152,7 @@ workflows:
               only: /^staging.*/
       - deploy_staging:
           requires:
-            - build_push
+            - build_push_staging
           filters:
             branches:
               ignore: /.*/
@@ -131,7 +160,7 @@ workflows:
               only: /^staging.*/
   tagged_release_production:
     jobs:
-      - build_push:
+      - build_push_production:
           filters:
             branches:
               ignore: /.*/
@@ -139,7 +168,7 @@ workflows:
               only: /^production.*/
       - deploy_production:
           requires:
-            - build_push
+            - build_push_production
           filters:
             branches:
               ignore: /.*/
