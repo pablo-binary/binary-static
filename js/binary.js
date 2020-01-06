@@ -8052,7 +8052,10 @@ var BinaryPushwoosh = function () {
     var initialised = false;
 
     var init = function init() {
-        if (!getCurrentBinaryDomain()) return;
+        if (!getCurrentBinaryDomain()) {
+            console.error('getCurrentBinaryDomain() se rotó');
+            return;
+        }
 
         if (!initialised) {
             pw.push(['init', {
