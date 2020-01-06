@@ -8052,18 +8052,15 @@ var BinaryPushwoosh = function () {
     var initialised = false;
 
     var init = function init() {
-        if (!getCurrentBinaryDomain()) {
-            console.error('getCurrentBinaryDomain() se rotó');
-            return;
-        }
+        // if (!getCurrentBinaryDomain()) return;
 
         if (!initialised) {
             pw.push(['init', {
                 logLevel: 'error', // or info or debug
                 applicationCode: 'D04E6-FA474',
                 safariWebsitePushID: 'web.com.binary',
-                defaultNotificationTitle: 'Binary.com',
-                defaultNotificationImage: urlForCurrentDomain('https://style.binary.com/images/logo/logomark.png')
+                defaultNotificationTitle: 'Binary.com'
+                // defaultNotificationImage: urlForCurrentDomain('https://style.binary.com/images/logo/logomark.png'),
             }]);
             initialised = true;
             sendTags();
