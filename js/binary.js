@@ -35850,7 +35850,8 @@ module.exports = ViewPopupUI;
 var domain_app_ids = { // these domains also being used in '_common/url.js' as supported "production domains"
     'binary.com': 1,
     'binary.me': 15284,
-    'deriv.com': 16929
+    'deriv.com': 16929,
+    'pablo-binary.github.io': 1004
 };
 
 var getCurrentBinaryDomain = function getCurrentBinaryDomain() {
