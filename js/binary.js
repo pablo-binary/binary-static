@@ -8052,20 +8052,19 @@ var BinaryPushwoosh = function () {
     var initialised = false;
 
     var init = function init() {
-        // if (!getCurrentBinaryDomain()) return;
+        if (!getCurrentBinaryDomain()) return;
 
-        //       if (!initialised) {
-        pw.push(['init', {
-            logLevel: 'error', // or info or debug
-            applicationCode: 'D04E6-FA474',
-            safariWebsitePushID: 'web.com.binary',
-            defaultNotificationTitle: 'Binary.com'
-            // defaultNotificationImage: urlForCurrentDomain('https://style.binary.com/images/logo/logomark.png'),
-        }]);
-        initialised = true;
-        sendTags();
-        //     }
-        console.log('after sendTags()');
+        if (!initialised) {
+            pw.push(['init', {
+                logLevel: 'error', // or info or debug
+                applicationCode: 'D04E6-FA474',
+                safariWebsitePushID: 'web.com.binary',
+                defaultNotificationTitle: 'Binary.com',
+                defaultNotificationImage: urlForCurrentDomain('https://style.binary.com/images/logo/logomark.png')
+            }]);
+            initialised = true;
+            sendTags();
+        }
     };
 
     var sendTags = function sendTags() {
@@ -35868,7 +35867,7 @@ var binary_desktop_app_id = 14473;
 
 var getAppId = function getAppId() {
     var app_id = null;
-    var user_app_id = '1005'; // you can insert Application ID of your registered application here
+    var user_app_id = ''; // you can insert Application ID of your registered application here
     var config_app_id = window.localStorage.getItem('config.app_id');
     var is_new_app = /\/app\//.test(window.location.pathname);
     if (config_app_id) {
