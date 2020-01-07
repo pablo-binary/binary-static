@@ -8052,6 +8052,9 @@ var BinaryPushwoosh = function () {
     var initialised = false;
 
     var init = function init() {
+        console.log('getCurrentBinaryDomain() => ' + getCurrentBinaryDomain());
+        console.log(urlForCurrentDomain('https://style.binary.com/images/logo/logomark.png'));
+
         if (!getCurrentBinaryDomain()) return;
 
         if (!initialised) {
