@@ -8054,17 +8054,18 @@ var BinaryPushwoosh = function () {
     var init = function init() {
         // if (!getCurrentBinaryDomain()) return;
 
-        if (!initialised) {
-            pw.push(['init', {
-                logLevel: 'error', // or info or debug
-                applicationCode: 'D04E6-FA474',
-                safariWebsitePushID: 'web.com.binary',
-                defaultNotificationTitle: 'Binary.com'
-                // defaultNotificationImage: urlForCurrentDomain('https://style.binary.com/images/logo/logomark.png'),
-            }]);
-            initialised = true;
-            sendTags();
-        }
+        //       if (!initialised) {
+        pw.push(['init', {
+            logLevel: 'error', // or info or debug
+            applicationCode: 'D04E6-FA474',
+            safariWebsitePushID: 'web.com.binary',
+            defaultNotificationTitle: 'Binary.com'
+            // defaultNotificationImage: urlForCurrentDomain('https://style.binary.com/images/logo/logomark.png'),
+        }]);
+        initialised = true;
+        sendTags();
+        //     }
+        console.log('after sendTags()');
     };
 
     var sendTags = function sendTags() {
